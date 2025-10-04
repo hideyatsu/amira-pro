@@ -5,14 +5,18 @@ services:
       dockerfile: Dockerfile
     image: ${APP_NAME}-app
     container_name: ${APP_NAME}-app
+    user: "1000:1000"
     restart: unless-stopped
     working_dir: /var/www/html
     volumes:
       - ./src:/var/www/html
+    environment:
+      - COMPOSER_ALLOW_SUPERUSER=1
     networks:
       - amira-pro-network
     depends_on:
       - mysql
+      - memcached
 
   # Nginx Web Server Container
   webserver:
@@ -29,6 +33,17 @@ services:
       - amira-pro-network
     depends_on:
       - app
+
+  # Memcached Container
+  memcached:
+    image: memcached:alpine
+    container_name: ${APP_NAME}-memcached
+    restart: unless-stopped
+    ports:
+      - "${MEMCACHED_PORT:-11211}:11211"
+    command: ["-m", "256"]
+    networks:
+      - amira-pro-network
 
   # MySQL Database Container
   mysql:
