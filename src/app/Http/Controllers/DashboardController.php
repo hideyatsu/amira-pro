@@ -11,6 +11,22 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('admin.dashboard.index');
+        return view('admin.dashboard');
+    }
+
+    /**
+     * Display the advanced forms page.
+     */
+    public function advancedForm()
+    {
+        return view('admin.advanced-forms');
+    }
+
+    /**
+     * Display the tables page.
+     */
+    public function tables()
+    {
+        return view('admin.tables');
     }
 }

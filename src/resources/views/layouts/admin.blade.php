@@ -23,9 +23,7 @@
 
         <!-- BEGIN PAGE WRAPPER -->
         <div class="page-wrapper">
-            @hasSection('page-header')
-                @include('partials.admin.page-header')
-            @endif
+            @include('partials.admin.page-header')
 
             <!-- BEGIN PAGE BODY -->
             <div class="page-body">
