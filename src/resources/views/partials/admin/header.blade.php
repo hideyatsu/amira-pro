@@ -40,18 +40,14 @@
                 </div>
             </div>
 
-            <!-- Theme toggle -->
             <div class="d-none d-md-flex">
+                <!-- Theme toggle -->
                 @include('partials.admin.theme-toggle')
-            </div>
 
-            <!-- Notifications -->
-            <div class="nav-item dropdown d-none d-md-flex">
+                <!-- Notifications -->
                 @include('partials.admin.notifications')
-            </div>
 
-            <!-- Apps dropdown -->
-            <div class="nav-item dropdown d-none d-md-flex me-3">
+                <!-- Apps dropdown -->
                 @include('partials.admin.apps-dropdown')
             </div>
 
