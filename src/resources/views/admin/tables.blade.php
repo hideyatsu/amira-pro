@@ -27,5 +27,43 @@
             />
         </x-card>
     </div>
+    <!-- End Basic Table -->
+    <!-- DataTable -->
+    <div class="col-12">
+        <x-card title="DataTable Example">
+            @php
+                $heads = [
+                    'ID',
+                    'Nama Pengguna',
+                    'Email',
+                    ['label' => 'Aksi', 'width' => 25]
+                ];
+
+                $config = [
+                    // --- PENTING: Konfigurasi AJAX ---
+                    'ajax' => route('admin.users.index'), // Route yang baru kita buat
+
+                    'columns' => [
+                        // 'data' harus sesuai dengan kolom yang dipilih di controller (User::select)
+                        ['data' => 'id', 'name' => 'id', 'title' => 'ID'],
+                        ['data' => 'name', 'name' => 'name', 'title' => 'Nama Pengguna'],
+                        ['data' => 'email', 'name' => 'email', 'title' => 'Email'],
+                        // Kolom 'actions' adalah kolom kustom yang kita buat di controller
+                        ['data' => 'actions', 'name' => 'actions', 'title' => 'Aksi', 'orderable' => false, 'searchable' => false],
+                    ],
+
+                    'order' => [[0, 'desc']], // Urutkan berdasarkan ID secara descending
+                ];
+            @endphp
+            <x-datatable
+                :heads="$heads"
+                :server-side="true"
+                :config="$config"
+                striped
+                hoverable
+            />
+        </x-card>
+    </div>
+    <!-- End DataTable -->
 </div>
 @endsection

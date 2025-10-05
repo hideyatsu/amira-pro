@@ -107,6 +107,18 @@ This document lists available components, their main props, and short usage exam
     - Multiple colors and styles
     - Striped and animated options
 
+### Table Components
+
+20. **Table** (`<x-table>`)
+    - Basic HTML tables with Tabler styling
+    - Responsive, striped, bordered, hover options
+    - Support for array data or slot content
+
+21. **DataTable** (`<x-datatable>`)
+    - Basic DataTables integration
+    - Search, pagination, and sorting
+    - Bootstrap 5 styled
+
 Each component is kept small and composable so you can combine them to build complex forms and panels.
 
 ---
