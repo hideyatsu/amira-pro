@@ -6,17 +6,106 @@ This document lists available components, their main props, and short usage exam
 
 ---
 
-## Available components
+## Components Overview
 
-1. Card — `<x-card>`
-2. Form input — `<x-form.input>`
-3. Select — `<x-form.select>`
-4. Textarea — `<x-form.textarea>`
-5. Checkbox — `<x-form.checkbox>`
-6. Radio — `<x-form.radio>`
-7. Button — `<x-button>`
-8. Form group — `<x-form.group>`
-9. Icon — `<x-icon>`
+### Form Components
+
+1. **Input** (`<x-form.input>`)
+   - Text, email, password, and other input types
+   - Validation states and error handling
+   - Optional icons and hints
+
+2. **Select** (`<x-form.select>`)
+   - Dropdown selections with options array
+   - Multiple selection support
+   - Placeholder and validation
+
+3. **Textarea** (`<x-form.textarea>`)
+   - Multi-line text input
+   - Configurable rows and validation
+   - Character limits and hints
+
+4. **Checkbox** (`<x-form.checkbox>`)
+   - Single checkbox input
+   - Custom values and labels
+   - Validation support
+
+5. **Radio** (`<x-form.radio>`)
+   - Radio button input
+   - Individual radio elements
+   - Grouping support
+
+6. **Group** (`<x-form.group>`)
+   - Form field wrapper with horizontal layout
+   - Label positioning and validation
+   - Consistent spacing
+
+7. **Toggle** (`<x-form.toggle>`)
+   - Switch-style toggle inputs
+   - Various sizes and states
+   - Descriptions and validation
+
+8. **File Upload** (`<x-form.file-upload>`)
+   - Single and multiple file uploads
+   - Drag & drop support (dropzone)
+   - File type restrictions
+
+9. **Input Group** (`<x-form.input-group>`)
+   - Inputs with prepend/append elements
+   - Text and button addons
+   - Flexible content slots
+
+10. **Range** (`<x-form.range>`)
+    - Range slider inputs
+    - Min/max values and steps
+    - Real-time value display
+
+11. **Color Picker** (`<x-form.color-picker>`)
+    - Color selection input
+    - Preset color palette
+    - Hex value display
+
+12. **Tags Input** (`<x-form.tags-input>`)
+    - Multiple tag selection
+    - Dynamic tag creation
+    - Customizable separators
+
+13. **Date Picker** (`<x-form.date-picker>`)
+    - Date selection input
+    - Inline calendar view
+    - Date range restrictions
+
+14. **Select Group** (`<x-form.select-group>`)
+    - Visual selection groups
+    - Icon and text combinations
+    - Multiple styles (pills, buttons)
+
+15. **Input Mask** (`<x-form.input-mask>`)
+    - Formatted input patterns
+    - Common mask presets (phone, date, etc.)
+    - Custom mask definitions
+
+### UI Components
+
+16. **Card** (`<x-card>`)
+    - Content containers with headers
+    - Flexible body and footer areas
+    - Custom styling options
+
+17. **Button** (`<x-button>`)
+    - Various button styles and sizes
+    - Loading states and icons
+    - Type and variant support
+
+18. **Icon** (`<x-icon>`)
+    - SVG icon renderer
+    - Built-in icon library
+    - Customizable size and color
+
+19. **Progress** (`<x-progress>`)
+    - Progress bar indicators
+    - Multiple colors and styles
+    - Striped and animated options
 
 Each component is kept small and composable so you can combine them to build complex forms and panels.
 
@@ -26,6 +115,137 @@ Each component is kept small and composable so you can combine them to build com
 
 ### Card — `<x-card>`
 Simple card wrapper with optional header slot or `title` prop.
+
+```blade
+## Usage Examples
+
+All examples use Laravel Blade syntax:
+
+### Advanced Form Elements
+
+#### Toggle Switches — `<x-form.toggle>`
+```blade
+<x-form.toggle 
+    name="notifications" 
+    label="Push Notifications" 
+    description="Enable push notifications for this account"
+    :checked="true" 
+/>
+
+<x-form.toggle 
+    name="sms" 
+    label="SMS Notifications" 
+    size="sm"
+/>
+```
+
+#### Input Groups — `<x-form.input-group>`
+```blade
+<x-form.input-group 
+    name="website"
+    label="Website URL"
+    prepend="https://"
+    append=".com"
+    placeholder="yoursite"
+/>
+```
+
+#### Input Masks — `<x-form.input-mask>`
+```blade
+<x-form.input-mask 
+    name="phone"
+    label="Phone Number"
+    mask="phone"
+/>
+
+<x-form.input-mask 
+    name="custom_mask"
+    label="Custom Format"
+    mask="99-AAA-999"
+/>
+```
+
+#### Range Sliders — `<x-form.range>`
+```blade
+<x-form.range 
+    name="volume"
+    label="Volume"
+    :min="0"
+    :max="100"
+    :value="50"
+/>
+```
+
+#### Color Picker — `<x-form.color-picker>`
+```blade
+<x-form.color-picker 
+    name="primary_color"
+    label="Primary Color"
+    value="#206bc4"
+/>
+```
+
+#### Select Groups — `<x-form.select-group>`
+```blade
+<x-form.select-group 
+    name="language"
+    label="Programming Language"
+    :options="[
+        'html' => ['text' => 'HTML', 'icon' => 'code'],
+        'css' => ['text' => 'CSS', 'icon' => 'palette'],
+        'js' => ['text' => 'JavaScript', 'icon' => 'brand-javascript']
+    ]"
+    style="pills"
+/>
+```
+
+#### File Upload — `<x-form.file-upload>`
+```blade
+<x-form.file-upload 
+    name="documents"
+    label="Documents"
+    :multiple="true"
+    accept=".pdf,.doc,.docx"
+    :dropzone="true"
+/>
+```
+
+#### Date Picker — `<x-form.date-picker>`
+```blade
+<x-form.date-picker 
+    name="start_date"
+    label="Start Date"
+    value="{{ date('Y-m-d') }}"
+/>
+
+<x-form.date-picker 
+    name="inline_date"
+    label="Choose Date"
+    :inline="true"
+/>
+```
+
+#### Tags Input — `<x-form.tags-input>`
+```blade
+<x-form.tags-input 
+    name="skills"
+    label="Skills"
+    :value="['Laravel', 'Vue.js', 'PHP']"
+    placeholder="Add skills..."
+/>
+```
+
+#### Progress Indicators — `<x-progress>`
+```blade
+<x-progress :value="38" label="Profile Completion" />
+<x-progress :value="72" color="success" :striped="true" />
+<x-progress :value="45" color="warning" :animated="true" size="sm" />
+```
+
+### Basic Components
+
+#### Card — `<x-card>`
+Basic card layout with optional header slot.
 
 ```blade
 <x-card title="Card title">Content</x-card>
