@@ -21,4 +21,12 @@ class DashboardController extends Controller
     {
         return view('admin.advanced-forms');
     }
+
+    /**
+     * Display the tables page.
+     */
+    public function tables()
+    {
+        return view('admin.tables');
+    }
 }

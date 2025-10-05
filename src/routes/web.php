@@ -11,4 +11,5 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Admin Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/advanced-forms', [DashboardController::class, 'advancedForm'])->name('dashboard.advanced-forms');
+    Route::get('/dashboard/tables', [DashboardController::class, 'tables'])->name('dashboard.tables');
 });
