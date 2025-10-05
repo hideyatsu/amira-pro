@@ -4,10 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Yajra\DataTables\DataTables;
 
-class UserController extends Controller
+class UserController extends Controller implements HasMiddleware
 {
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            'auth',
+            new Middleware('view users', ['index', 'show']),
+            new Middleware('create users', ['create', 'store']),
+            new Middleware('edit users', ['edit', 'update']),
+            new Middleware('delete users', ['destroy']),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
