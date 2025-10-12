@@ -94,11 +94,11 @@
 
                     <!-- Submit Buttons -->
                     <div class="d-flex justify-content-between">
-                        <a href="{{ route('admin.roles.index') }}" class="btn btn-outline-secondary">
+                        <a href="{{ route('admin.roles.index') }}" class="btn btn-outline-secondary btn-sm">
                             <x-icon name="x" class="me-2" />
                             Cancel
                         </a>
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary btn-sm">
                             <x-icon name="check" class="me-2" />
                             Update Role
                         </button>

@@ -84,7 +84,7 @@
         <div class="col-lg-4">
             <x-card title="Quick Actions">
                 <div class="d-grid gap-2">
-                    <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-primary">
+                    <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-primary btn-sm">
                         <x-icon name="edit" class="me-2" />
                         Edit User
                     </a>
@@ -92,7 +92,7 @@
                     @if(!$user->email_verified_at)
                     <form method="POST" action="{{ route('admin.users.verify-email', $user) }}" class="d-inline">
                         @csrf
-                        <button type="submit" class="btn btn-success w-100">
+                        <button type="submit" class="btn btn-success btn-sm w-100">
                             <x-icon name="mail-check" class="me-2" />
                             Verify Email
                         </button>
@@ -101,7 +101,7 @@
                     
                     <form method="POST" action="{{ route('admin.users.reset-password', $user) }}" class="d-inline">
                         @csrf
-                        <button type="submit" class="btn btn-warning w-100" 
+                        <button type="submit" class="btn btn-warning btn-sm w-100" 
                                 onclick="return confirm('Send password reset email to this user?')">
                             <x-icon name="key" class="me-2" />
                             Reset Password
@@ -112,7 +112,7 @@
                     <form method="POST" action="{{ route('admin.users.destroy', $user) }}" class="d-inline">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger w-100" 
+                        <button type="submit" class="btn btn-danger btn-sm w-100" 
                                 onclick="return confirm('Are you sure you want to delete this user? This action cannot be undone.')">
                             <x-icon name="trash" class="me-2" />
                             Delete User

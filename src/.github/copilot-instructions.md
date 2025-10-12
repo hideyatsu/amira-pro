@@ -200,4 +200,93 @@ protected function isAccessible(User $user, ?string $path = null): bool
 - To run all tests: `php artisan test`.
 - To run all tests in a file: `php artisan test tests/Feature/ExampleTest.php`.
 - To filter on a particular test name: `php artisan test --filter=testName` (recommended after making a change to a related file).
+
+
+=== ui/ux guidelines ===
+
+## UI/UX Standards & Design System
+
+This application uses Tabler UI framework with consistent design patterns across all admin interfaces.
+
+### Button Guidelines
+- **Default Button Size**: Always use small buttons (`btn-sm`) as the standard size for all forms and interfaces
+- **Button Classes**: All buttons must include `btn-sm` class for consistency
+- **Examples**:
+  ```html
+  <!-- Correct: Always use btn-sm -->
+  <button class="btn btn-primary btn-sm">Save</button>
+  <a href="#" class="btn btn-outline-secondary btn-sm">Cancel</a>
+
+  <!-- Incorrect: Don't use regular size -->
+  <button class="btn btn-primary">Save</button>
+  ```
+
+### Form Standards
+- Use existing form components from `components/form/` directory
+- Component naming: `<x-form.input-group>`, `<x-form.select-group>`, etc.
+- All form buttons (Submit, Cancel, Update, Delete) must use `btn-sm` size
+- Maintain consistent spacing with `me-2`, `w-100` classes as needed
+
+### Admin Interface Consistency
+- Follow the established patterns in users, roles, and permissions modules
+- Use consistent card layouts with header actions
+- Maintain uniform DataTables implementation
+- Keep consistent icon usage with `<x-icon>` component
+
+### Component Usage
+- Always check existing components before creating new ones
+- Reuse established patterns for CRUD operations
+- Follow the same structure: index → create → edit → show views
+- Use consistent JavaScript patterns for delete confirmations
+
+### Page Layout Guidelines
+- **Default Layout**: All new pages should be created WITHOUT page-header section by default
+- **Page Header Usage**: Only add page-header when explicitly needed or requested by the user
+- **Clean Interface**: Prefer minimal layouts without unnecessary page-header sections
+- **Examples**:
+  ```blade
+  <!-- Default: No page-header (Preferred) -->
+  @extends('layouts.admin')
+  @section('title', 'Page Title')
+  @section('content')
+      <div class="row">
+          <!-- Direct content without page-header -->
+          <div class="col-12">
+              <x-card>
+                  <!-- page content -->
+              </x-card>
+          </div>
+      </div>
+  @endsection
+
+  <!-- Only when explicitly needed -->
+  @extends('layouts.admin')
+  @section('title', 'Page Title')
+  @section('page-header')
+      <!-- Only add when specifically requested -->
+      <div class="page-header">
+          <h1>Specific Page Header</h1>
+      </div>
+  @endsection
+  @section('content')
+      <!-- content -->
+  @endsection
+  ```
+
+### Container Command Execution
+- **Always use Docker**: All commands (Artisan, Composer, NPM) must be executed inside the Docker container
+- **Command Format**: Use `docker compose exec app <command>` for all operations
+- **Examples**:
+  ```bash
+  # Correct: Run inside container
+  docker compose exec app php artisan make:controller UserController
+  docker compose exec app composer install
+  docker compose exec app npm run build
+
+  # Incorrect: Don't run directly on host
+  php artisan make:controller UserController
+  composer install
+  npm run build
+  ```
+
 </laravel-boost-guidelines>

@@ -59,7 +59,7 @@
         <div class="col-lg-4">
             <x-card title="Quick Actions">
                 <div class="d-grid gap-2">
-                    <a href="{{ route('admin.permissions.edit', $permission) }}" class="btn btn-primary">
+                    <a href="{{ route('admin.permissions.edit', $permission) }}" class="btn btn-primary btn-sm">
                         <x-icon name="edit" class="me-2" />
                         Edit Permission
                     </a>
@@ -68,7 +68,7 @@
                     <form method="POST" action="{{ route('admin.permissions.destroy', $permission) }}" class="d-inline">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger w-100"
+                        <button type="submit" class="btn btn-danger btn-sm w-100"
                                 onclick="return confirm('Are you sure you want to delete this permission? This action cannot be undone.')">
                             <x-icon name="trash" class="me-2" />
                             Delete Permission
