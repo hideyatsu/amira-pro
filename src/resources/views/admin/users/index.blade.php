@@ -18,10 +18,10 @@
 
                 @php
                     $heads = [
-                        ['label' => 'Name', 'width' => 25],
+                        ['label' => 'Name'],
                         ['label' => 'Email', 'width' => 25],
                         ['label' => 'Role', 'width' => 15],
-                        ['label' => 'Actions', 'width' => 10, 'no-export' => true],
+                        ['label' => 'Actions', 'width' => 20, 'no-export' => true],
                     ];
 
                     $config = [
@@ -50,3 +50,34 @@
         </div>
     </div>
 @endsection
+
+<script>
+// Define deleteUser function globally to be accessible from AJAX loaded content
+window.deleteUser = function(userId, userName, deleteUrl) {
+    if (confirm(`Are you sure you want to delete user "${userName}"? This action cannot be undone.`)) {
+        // Create a form and submit it
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = deleteUrl;
+
+        // Add CSRF token
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = '_token';
+        csrfInput.value = csrfToken;
+        form.appendChild(csrfInput);
+
+        // Add DELETE method
+        const methodInput = document.createElement('input');
+        methodInput.type = 'hidden';
+        methodInput.name = '_method';
+        methodInput.value = 'DELETE';
+        form.appendChild(methodInput);
+
+        // Submit the form
+        document.body.appendChild(form);
+        form.submit();
+    }
+};
+</script>

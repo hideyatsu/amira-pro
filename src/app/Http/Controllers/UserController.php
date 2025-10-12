@@ -34,10 +34,15 @@ class UserController extends Controller implements HasMiddleware
                     return $user->roles->pluck('name')->join(', ');
                 })
                 ->addColumn('actions', function ($user) {
+                    $showUrl = route('admin.users.show', $user->id);
                     $editUrl = route('admin.users.edit', $user->id);
-                    $deleteBtn = '<button onclick="deleteUser(' . $user->id . ')" class="btn btn-sm btn-danger">Delete</button>';
+                    $deleteUrl = route('admin.users.destroy', $user->id);
 
-                    return "<a href='{$editUrl}' class='btn btn-sm btn-primary'>Edit</a> {$deleteBtn}";
+                    return '
+                        <a href="' . $showUrl . '" class="btn btn-sm btn-secondary">View</a>
+                        <a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>
+                        <button onclick="window.deleteUser(' . $user->id . ', \'' . addslashes($user->name) . '\', \'' . $deleteUrl . '\')" class="btn btn-sm btn-danger">Delete</button>
+                    ';
                 })
                 ->filterColumn('name', function ($query, $keyword) {
                     $query->where('name', 'like', "%{$keyword}%");
@@ -62,7 +67,8 @@ class UserController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        //
+        $roles = \Spatie\Permission\Models\Role::all();
+        return view('admin.users.create', compact('roles'));
     }
 
     /**
@@ -70,7 +76,29 @@ class UserController extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'roles' => ['array'],
+            'roles.*' => ['string', 'exists:roles,name'],
+            'email_verified' => ['boolean'],
+        ]);
+
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => bcrypt($validated['password']),
+            'email_verified_at' => $request->boolean('email_verified') ? now() : null,
+        ]);
+
+        if (!empty($validated['roles'])) {
+            $user->assignRole($validated['roles']);
+        }
+
+        return redirect()
+            ->route('admin.users.index')
+            ->with('success', 'User created successfully!');
     }
 
     /**
@@ -78,7 +106,8 @@ class UserController extends Controller implements HasMiddleware
      */
     public function show(string $id)
     {
-        //
+        $user = User::with('roles', 'permissions')->findOrFail($id);
+        return view('admin.users.show', compact('user'));
     }
 
     /**
@@ -86,7 +115,9 @@ class UserController extends Controller implements HasMiddleware
      */
     public function edit(string $id)
     {
-        //
+        $user = User::with('roles')->findOrFail($id);
+        $roles = \Spatie\Permission\Models\Role::all();
+        return view('admin.users.edit', compact('user', 'roles'));
     }
 
     /**
@@ -94,7 +125,37 @@ class UserController extends Controller implements HasMiddleware
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+            'roles' => ['array'],
+            'roles.*' => ['string', 'exists:roles,name'],
+            'email_verified' => ['boolean'],
+        ]);
+
+        $user->update([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'email_verified_at' => $request->boolean('email_verified') ? ($user->email_verified_at ?? now()) : null,
+        ]);
+
+        if (!empty($validated['password'])) {
+            $user->update(['password' => bcrypt($validated['password'])]);
+        }
+
+        // Sync roles
+        if (isset($validated['roles'])) {
+            $user->syncRoles($validated['roles']);
+        } else {
+            $user->syncRoles([]);
+        }
+
+        return redirect()
+            ->route('admin.users.index')
+            ->with('success', 'User updated successfully!');
     }
 
     /**
@@ -102,6 +163,48 @@ class UserController extends Controller implements HasMiddleware
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        // Prevent deleting current authenticated user
+        if ($user->id === request()->user()->id) {
+            return redirect()
+                ->route('admin.users.index')
+                ->with('error', 'You cannot delete your own account!');
+        }
+
+        $user->delete();
+
+        return redirect()
+            ->route('admin.users.index')
+            ->with('success', 'User deleted successfully!');
+    }
+
+    /**
+     * Manually trigger email verification for a user.
+     */
+    public function verify(Request $request, string $id)
+    {
+        $user = User::findOrFail($id);
+        if ($user->hasVerifiedEmail()) {
+            return redirect()
+                ->route('admin.users.edit', $user->id)
+                ->with('info', 'User email is already verified.');
+        }
+        $user->markEmailAsVerified();
+        return redirect()
+            ->route('admin.users.edit', $user->id)
+            ->with('success', 'User email verified successfully.');
+    }
+
+    /**
+     * Send a password reset link to the user's email.
+     */
+    public function resetPassword(Request $request, string $id)
+    {
+        $user = User::findOrFail($id);
+        \Illuminate\Support\Facades\Password::sendResetLink(['email' => $user->email]);
+        return redirect()
+            ->route('admin.users.edit', $user->id)
+            ->with('success', 'Password reset link sent to user\'s email.');
     }
 }
