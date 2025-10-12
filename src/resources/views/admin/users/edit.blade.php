@@ -112,17 +112,17 @@
                         <div class="col-12">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="btn-list">
-                                    <x-primary-button class="btn btn-primary">
+                                    <x-primary-button class="btn btn-primary btn-sm">
                                         <x-icon name="device-floppy" class="me-2" />
                                         {{ __('Update User') }}
                                     </x-primary-button>
 
-                                    <a href="#" onclick="window.history.back()" class="btn btn-outline-secondary">
+                                    <a href="#" onclick="window.history.back()" class="btn btn-outline-secondary btn-sm">
                                         <x-icon name="arrow-left" class="me-2" />
                                         {{ __('Cancel') }}
                                     </a>
 
-                                    <a href="{{ route('admin.users.show', $user) }}" class="btn btn-outline-info">
+                                    <a href="{{ route('admin.users.show', $user) }}" class="btn btn-outline-info btn-sm">
                                         <x-icon name="eye" class="me-2" />
                                         {{ __('View User') }}
                                     </a>
