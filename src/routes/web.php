@@ -23,4 +23,6 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::get('/dashboard/tables', [DashboardController::class, 'tables'])->name('dashboard.tables')->middleware('role:Admin');
 
     Route::resource('users', \App\Http\Controllers\UserController::class);
+    Route::post('users/{user}/verify', [\App\Http\Controllers\UserController::class, 'verify'])->name('users.verify-email');
+    Route::post('users/{user}/reset-password', [\App\Http\Controllers\UserController::class, 'resetPassword'])->name('users.reset-password');
 });
