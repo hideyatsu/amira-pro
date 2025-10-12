@@ -2,12 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Traits\HasPermissionMiddleware;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Yajra\DataTables\DataTables;
 
-class UserController extends Controller
+class UserController extends Controller implements HasMiddleware
 {
+    use HasPermissionMiddleware;
+
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return static::getResourceMiddleware('users');
+    }
+
     /**
      * Display a listing of the resource.
      */
