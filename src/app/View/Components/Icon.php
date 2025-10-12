@@ -2,13 +2,8 @@
 
 namespace App\View\Components;
 
-use Illuminate\View\Component;
-
-namespace App\View\Components;
-
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use Closure;
 
 class Icon extends Component
 {
