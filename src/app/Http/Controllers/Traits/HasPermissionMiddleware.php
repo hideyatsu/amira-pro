@@ -12,14 +12,14 @@ trait HasPermissionMiddleware
     public static function getBaseMiddleware(): array
     {
         return [
-            'auth', 
+            'auth',
             'verified'
         ];
     }
 
     /**
      * Get permission-based middleware for a given resource.
-     * 
+     *
      * @param string $resource The resource name (e.g., 'users', 'posts', 'roles')
      * @return array
      */
@@ -35,7 +35,7 @@ trait HasPermissionMiddleware
 
     /**
      * Get complete middleware array for a resource with base middleware.
-     * 
+     *
      * @param string $resource The resource name
      * @param array $additionalMiddleware Additional middleware to include
      * @return array
@@ -51,7 +51,7 @@ trait HasPermissionMiddleware
 
     /**
      * Get middleware for custom actions with specific permissions.
-     * 
+     *
      * @param string $permission The permission name
      * @param array $actions The actions this permission applies to
      * @return Middleware

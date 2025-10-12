@@ -25,33 +25,36 @@ class UserController extends Controller implements HasMiddleware
      */
     public function index(Request $request)
     {
-        // IMPORTANT: Only process when this is an AJAX request
         if ($request->ajax()) {
-            // 1. Fetch base data from the database
-            // Select the columns you want to expose. Be careful with sensitive fields.
-            $query = User::select(['id', 'name', 'email', 'created_at']);
+            $query = User::with(['roles'])
+                ->select(['id', 'name', 'email', 'created_at']);
 
-            // 2. Use DataTables to process the query
             return DataTables::of($query)
-                // 3. Add custom columns (for example, an Actions column)
+                ->addColumn('roles', function (User $user) {
+                    return $user->roles->pluck('name')->join(', ');
+                })
                 ->addColumn('actions', function ($user) {
-                    // Build Edit/Delete links here.
-                    // Assumes a route named 'admin.users.edit' exists.
                     $editUrl = route('admin.users.edit', $user->id);
                     $deleteBtn = '<button onclick="deleteUser(' . $user->id . ')" class="btn btn-sm btn-danger">Delete</button>';
 
-                    return "<a href='{$editUrl}' class='btn btn-sm btn-info'>Edit</a> {$deleteBtn}";
+                    return "<a href='{$editUrl}' class='btn btn-sm btn-primary'>Edit</a> {$deleteBtn}";
                 })
-                // 4. Configure searchable columns (if necessary)
                 ->filterColumn('name', function ($query, $keyword) {
-                    // Example custom filter: match names containing the keyword
                     $query->where('name', 'like', "%{$keyword}%");
                 })
-                // 5. Raw columns: tell DataTables which columns contain HTML
-                ->rawColumns(['actions'])
-                // 6. Return the JSON response
+                ->filterColumn('email', function ($query, $keyword) {
+                    $query->where('email', 'like', "%{$keyword}%");
+                })
+                ->filterColumn('roles', function ($query, $keyword) {
+                    $query->whereHas('roles', function ($q) use ($keyword) {
+                        $q->where('name', 'like', "%{$keyword}%");
+                    });
+                })
+                ->rawColumns(['roles', 'actions'])
                 ->make(true);
         }
+
+        return view('admin.users.index');
     }
 
     /**
