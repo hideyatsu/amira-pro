@@ -4,7 +4,7 @@
   $isServerSide = $serverSide;
 
   // Exclude specific attributes from being rendered in the HTML element
-  $renderedAttributes = $attributes->except(['config', 'data', 'server-side']);
+  $renderedAttributes = $attributes->except(['config', 'data', 'server-side', 'hoverable', 'condensed', 'bordered', 'striped']);
 @endphp
 
 <div @if ($config['responsive']) class="table-responsive" @endif>
@@ -13,7 +13,9 @@
     {{ $renderedAttributes->class([
       'table w-full',
       'table-striped' => $striped,
-      'table-hover' => $hoverable
+      'table-hover' => $hoverable,
+      'table-sm' => $condensed,
+      'table-bordered' => $bordered,
     ]) }}>
     <thead>
       <tr>

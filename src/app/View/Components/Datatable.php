@@ -11,6 +11,8 @@ class Datatable extends Component
     public array $heads;
     public bool $striped;
     public bool $hoverable;
+    public bool $condensed;
+    public bool $bordered;
     public array $tableData;
     public bool $serverSide;
 
@@ -29,7 +31,9 @@ class Datatable extends Component
         bool $serverSide = false,
         array $config = [], // Accept config array
         bool $striped = false,
-        bool $hoverable = true
+        bool $hoverable = true,
+        bool $condensed = false,
+        bool $bordered = false
     ) {
         $this->id = $id ?? 'datatable-' . uniqid(); // Set default ID if not provided
         $this->heads = $heads;
@@ -37,6 +41,8 @@ class Datatable extends Component
         $this->serverSide = $serverSide;
         $this->striped = $striped;
         $this->hoverable = $hoverable;
+        $this->condensed = $condensed;
+        $this->bordered = $bordered;
 
         // Set configuration array
         $defaultConfig = [

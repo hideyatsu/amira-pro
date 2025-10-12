@@ -23,8 +23,19 @@
 
         <!-- BEGIN PAGE WRAPPER -->
         <div class="page-wrapper">
-            @include('partials.admin.page-header')
-
+            @php
+                // Determine if the page header should be displayed
+                $showPageHeader = (
+                    View::hasSection('page-title') ||
+                    View::hasSection('page-pretitle') ||
+                    View::hasSection('page-actions') ||
+                    View::hasSection('breadcrumb') ||
+                    View::hasSection('page-description')
+                );
+            @endphp
+            @if($showPageHeader)
+                @include('partials.admin.page-header')
+            @endif
             <!-- BEGIN PAGE BODY -->
             <div class="page-body">
                 <div class="container-xl">
