@@ -30,10 +30,10 @@ class Datatable extends Component
         array $data = [],
         bool $serverSide = false,
         array $config = [], // Accept config array
-        bool $striped = false,
+        bool $striped = true,
         bool $hoverable = true,
-        bool $condensed = false,
-        bool $bordered = false
+        bool $condensed = true,
+        bool $bordered = true
     ) {
         $this->id = $id ?? 'datatable-' . uniqid(); // Set default ID if not provided
         $this->heads = $heads;
