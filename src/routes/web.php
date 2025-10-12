@@ -22,7 +22,14 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::get('/dashboard/advanced-forms', [DashboardController::class, 'advancedForm'])->name('dashboard.advanced-forms')->middleware('role:Admin');
     Route::get('/dashboard/tables', [DashboardController::class, 'tables'])->name('dashboard.tables')->middleware('role:Admin');
 
+    // User Management
     Route::resource('users', \App\Http\Controllers\UserController::class);
     Route::post('users/{user}/verify', [\App\Http\Controllers\UserController::class, 'verify'])->name('users.verify-email');
     Route::post('users/{user}/reset-password', [\App\Http\Controllers\UserController::class, 'resetPassword'])->name('users.reset-password');
+
+    // Role Management
+    Route::resource('roles', \App\Http\Controllers\RoleController::class);
+
+    // Permission Management
+    Route::resource('permissions', \App\Http\Controllers\PermissionController::class);
 });
