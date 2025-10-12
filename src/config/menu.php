@@ -27,23 +27,23 @@ return [
                 // Column 1 items
                 [
                     'text' => 'User Management',
-                    'icon' => 'users',
+                    'icon' => 'user-cog',
                     'permission' => ['view users', 'view roles', 'view permissions'],
                     'active' => ['admin.users.*', 'admin.roles.*', 'admin.permissions.*'],
                     'column' => 1,
                     'dropdown_type' => 'nested', // Nested dropdown (dropend)
                     'children' => [
                         [
-                            'text' => 'Users List',
+                            'text' => 'Users',
                             'route' => 'admin.users.index',
-                            'icon' => 'user',
+                            'icon' => 'users',
                             'active' => ['admin.users.*'],
                             'permission' => 'view users',
                         ],
                         [
-                            'text' => 'Roles List',
+                            'text' => 'Roles',
                             'route' => 'admin.roles.index',
-                            'icon' => 'shield',
+                            'icon' => 'tie',
                             'active' => ['admin.roles.*'],
                             'permission' => 'view roles',
                         ],
