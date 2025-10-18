@@ -70,6 +70,13 @@ $icons = [
     'apps' => '<path d="M4 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M4 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M14 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M14 7l6 0" /><path d="M17 4l0 6" />',
     'chart-bar' => '<path d="M3 12m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M9 8m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M15 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M4 20l14 0" />',
     'logout' => '<path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" /><path d="M9 12h12l-3 -3" /><path d="M18 15l3 -3" />',
+    'star' => '<path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />',
+    'list' => '<path d="M12 20h9" /><path d="M12 4h9" /><path d="M4 12h16" /><path d="M4 6h.01" /><path d="M4 18h.01" /><path d="M4 12h.01" />',
+    'trending-up' => '<path d="M3 12l2 -2l4 4l8 -8l4 4l4 -4" /><path d="M21 12v7a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-7" /><path d="M5 10v-3a2 2 0 0 1 2 -2h3" />',
+    'brightness' => '<path d="M12 3v1" /><path d="M12 20v1" /><path d="M4.22 4.22l.7 .7" /><path d="M18.36 18.36l.7 .7" /><path d="M1 12h1" /><path d="M20 12h1" /><path d="M4.22 19.78l.7 -.7" /><path d="M18.36 5.64l.7 -.7" /><circle cx="12" cy="12" r="5" />',
+    'circle-dot' => '<path d="M3 3l18 18" /><path d="M10.584 10.61a3 3 0 0 0 4.207 4.26" /><path d="M9.173 5.176a9 9 0 0 1 9.653 9.65" /><path d="M6.69 7.244a13 13 0 0 1 14.319 14.318" /><path d="M3.6 10.029a17 17 0 0 1 18.375 18.372" />',
+    'chevron-down' => '<path d="M6 9l6 6l6 -6" />',
+    'menu' => '<path d="M4 6h16" /><path d="M4 12h16" /><path d="M4 18h16" />',
 ];
 
 $iconPath = $icons[$name] ?? $slot;
