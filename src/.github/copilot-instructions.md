@@ -5,6 +5,8 @@
 
 The Laravel Boost guidelines are specifically curated by Laravel maintainers for this application. These guidelines should be followed closely to enhance the user's satisfaction building Laravel applications.
 
+**IMPORTANT**: Always use the `copilot-instructions.md` file located in the `src/.github/` folder as the primary reference for all code writing and command execution throughout this project.
+
 ## Foundational Context
 This application is a Laravel application and its main Laravel ecosystems package & versions are below. You are an expert with them all. Ensure you abide by these specific packages & versions.
 
@@ -21,6 +23,14 @@ This application is a Laravel application and its main Laravel ecosystems packag
 - You must follow all existing code conventions used in this application. When creating or editing a file, check sibling files for the correct structure, approach, naming.
 - Use descriptive names for variables and methods. For example, `isRegisteredForDiscounts`, not `discount()`.
 - Check for existing components to reuse before writing a new one.
+- **Clean Code Standards**: Always remove trailing whitespace from all lines when editing files. No line should end with unnecessary spaces or tabs.
+
+## Code Quality & Formatting
+- **Trailing Spaces**: Automatically remove all trailing whitespace from every line in all edited files
+- **Line Endings**: Ensure consistent line endings (LF for Unix/Linux/Mac)
+- **Final Newline**: Always ensure files end with a single newline character
+- **Indentation**: Follow existing file indentation (spaces vs tabs, indent size)
+- **No Mixed Whitespace**: Never mix tabs and spaces in the same file
 
 ## Verification Scripts
 - Do not create verification scripts or tinker when tests cover that functionality and prove it works. Unit and feature tests are more important.
@@ -34,9 +44,11 @@ This application is a Laravel application and its main Laravel ecosystems packag
 
 ## Replies
 - Be concise in your explanations - focus on what's important rather than explaining obvious details.
+- Reference this file (src/.github/copilot-instructions.md) when explaining coding standards and conventions
 
 ## Documentation Files
 - You must only create documentation files if explicitly requested by the user.
+- Always refer to src/.github/copilot-instructions.md for project-specific guidelines before writing code
 
 
 === boost rules ===
@@ -182,6 +194,8 @@ protected function isAccessible(User $user, ?string $path = null): bool
 
 - You must run `vendor/bin/pint --dirty` before finalizing changes to ensure your code matches the project's expected style.
 - Do not run `vendor/bin/pint --test`, simply run `vendor/bin/pint` to fix any formatting issues.
+- Pint will automatically handle trailing spaces and code formatting, but always clean trailing spaces manually when editing files
+- Always execute Pint inside Docker container: `docker compose exec app vendor/bin/pint --dirty`
 
 
 === phpunit/core rules ===
@@ -276,17 +290,25 @@ This application uses Tabler UI framework with consistent design patterns across
 ### Container Command Execution
 - **Always use Docker**: All commands (Artisan, Composer, NPM) must be executed inside the Docker container
 - **Command Format**: Use `docker compose exec app <command>` for all operations
+- **Reference File**: Always follow guidelines from src/.github/copilot-instructions.md when executing commands
 - **Examples**:
   ```bash
   # Correct: Run inside container
   docker compose exec app php artisan make:controller UserController
   docker compose exec app composer install
   docker compose exec app npm run build
+  docker compose exec app vendor/bin/pint --dirty
 
   # Incorrect: Don't run directly on host
   php artisan make:controller UserController
   composer install
   npm run build
   ```
+
+### File Editing Best Practices
+- **Before Any Edit**: Review src/.github/copilot-instructions.md for project standards
+- **After Any Edit**: Remove all trailing whitespace from modified files
+- **Consistency Check**: Verify changes align with existing codebase patterns
+- **Quality Standards**: Ensure code follows all conventions defined in this guidelines file
 
 </laravel-boost-guidelines>

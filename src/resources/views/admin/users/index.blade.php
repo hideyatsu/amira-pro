@@ -20,6 +20,7 @@
                     $heads = [
                         ['label' => 'Name'],
                         ['label' => 'Email', 'width' => 25],
+                        ['label' => 'Status', 'width' => 10],
                         ['label' => 'Role', 'width' => 15],
                         ['label' => 'Actions', 'width' => 20, 'no-export' => true],
                     ];
@@ -29,6 +30,7 @@
                         'columns' => [
                             ['data' => 'name', 'name' => 'name'],
                             ['data' => 'email', 'name' => 'email'],
+                            ['data' => 'status', 'name' => 'status', 'orderable' => false, 'searchable' => false],
                             ['data' => 'roles', 'name' => 'roles'],
                             [
                                 'data' => 'actions',

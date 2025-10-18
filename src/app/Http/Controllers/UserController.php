@@ -6,6 +6,7 @@ use App\Http\Controllers\Traits\HasPermissionMiddleware;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
 class UserController extends Controller implements HasMiddleware
@@ -27,9 +28,15 @@ class UserController extends Controller implements HasMiddleware
     {
         if ($request->ajax()) {
             $query = User::with(['roles'])
-                ->select(['id', 'name', 'email', 'created_at']);
+                ->select(['id', 'name', 'email', 'is_active', 'created_at']);
 
             return DataTables::of($query)
+                ->addColumn('status', function (User $user) {
+                    if ($user->is_active) {
+                        return '<span class="badge bg-success text-success-fg">Active</span>';
+                    }
+                    return '<span class="badge bg-warning text-warning-fg">Inactive</span>';
+                })
                 ->addColumn('roles', function (User $user) {
                     return $user->roles->pluck('name')->join(', ');
                 })
@@ -55,7 +62,7 @@ class UserController extends Controller implements HasMiddleware
                         $q->where('name', 'like', "%{$keyword}%");
                     });
                 })
-                ->rawColumns(['roles', 'actions'])
+                ->rawColumns(['status', 'roles', 'actions'])
                 ->make(true);
         }
 
@@ -206,5 +213,52 @@ class UserController extends Controller implements HasMiddleware
         return redirect()
             ->route('admin.users.edit', $user->id)
             ->with('success', 'Password reset link sent to user\'s email.');
+    }
+
+    /**
+     * Activate a user account.
+     */
+    public function activate(Request $request, string $id)
+    {
+        $user = User::findOrFail($id);
+
+        if ($user->isActive()) {
+            return redirect()
+                ->route('admin.users.edit', $user->id)
+                ->with('info', 'User is already activated.');
+        }
+
+        $user->activate();
+
+        return redirect()
+            ->route('admin.users.edit', $user->id)
+            ->with('success', 'User activated successfully.');
+    }
+
+    /**
+     * Deactivate a user account.
+     */
+    public function deactivate(Request $request, string $id)
+    {
+        $user = User::findOrFail($id);
+
+        if (!$user->isActive()) {
+            return redirect()
+                ->route('admin.users.edit', $user->id)
+                ->with('info', 'User is already deactivated.');
+        }
+
+        // Don't allow deactivating yourself
+        if (Auth::id() === $user->id) {
+            return redirect()
+                ->route('admin.users.edit', $user->id)
+                ->with('error', 'You cannot deactivate your own account.');
+        }
+
+        $user->deactivate();
+
+        return redirect()
+            ->route('admin.users.edit', $user->id)
+            ->with('success', 'User deactivated successfully.');
     }
 }
