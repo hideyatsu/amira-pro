@@ -34,12 +34,12 @@
                             <div class="fw-bold">
                                 {{ $user->email }}
                                 @if($user->email_verified_at)
-                                    <span class="badge bg-success ms-2">
+                                    <span class="badge bg-success text-success-fg ms-2">
                                         <x-icon name="check" class="me-1" />
                                         Verified
                                     </span>
                                 @else
-                                    <span class="badge bg-warning ms-2">
+                                    <span class="badge bg-warning text-warning-fg ms-2">
                                         <x-icon name="alert-triangle" class="me-1" />
                                         Unverified
                                     </span>
@@ -88,7 +88,7 @@
                         <x-icon name="edit" class="me-2" />
                         Edit User
                     </a>
-                    
+
                     @if(!$user->email_verified_at)
                     <form method="POST" action="{{ route('admin.users.verify-email', $user) }}" class="d-inline">
                         @csrf
@@ -98,21 +98,21 @@
                         </button>
                     </form>
                     @endif
-                    
+
                     <form method="POST" action="{{ route('admin.users.reset-password', $user) }}" class="d-inline">
                         @csrf
-                        <button type="submit" class="btn btn-warning btn-sm w-100" 
+                        <button type="submit" class="btn btn-warning btn-sm w-100"
                                 onclick="return confirm('Send password reset email to this user?')">
                             <x-icon name="key" class="me-2" />
                             Reset Password
                         </button>
                     </form>
-                    
+
                     @if($user->id !== request()->user()->id)
                     <form method="POST" action="{{ route('admin.users.destroy', $user) }}" class="d-inline">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm w-100" 
+                        <button type="submit" class="btn btn-danger btn-sm w-100"
                                 onclick="return confirm('Are you sure you want to delete this user? This action cannot be undone.')">
                             <x-icon name="trash" class="me-2" />
                             Delete User
@@ -139,16 +139,16 @@
                     <div class="row g-2">
                         @foreach($user->roles as $role)
                             <div class="col-auto">
-                                <span class="badge bg-blue fs-7">
+                                <span class="badge bg-blue text-blue-fg fs-7">
                                     <x-icon name="shield" class="me-1" />
                                     {{ ucfirst($role->name) }}
                                 </span>
                             </div>
                         @endforeach
                     </div>
-                    
+
                     <hr class="my-3">
-                    
+
                     <div class="text-muted">
                         <x-icon name="info-circle" class="me-1" />
                         This user has {{ $user->roles->count() }} role(s) assigned.
@@ -171,16 +171,16 @@
                     <div class="row g-2">
                         @foreach($user->permissions as $permission)
                             <div class="col-auto">
-                                <span class="badge bg-green fs-7">
+                                <span class="badge bg-green text-green-fg fs-7">
                                     <x-icon name="key" class="me-1" />
                                     {{ $permission->name }}
                                 </span>
                             </div>
                         @endforeach
                     </div>
-                    
+
                     <hr class="my-3">
-                    
+
                     <div class="text-muted">
                         <x-icon name="info-circle" class="me-1" />
                         This user has {{ $user->permissions->count() }} direct permission(s).
@@ -219,7 +219,7 @@
         if (userIdElement) {
             userIdElement.style.cursor = 'pointer';
             userIdElement.title = 'Click to copy User ID';
-            
+
             userIdElement.addEventListener('click', function() {
                 navigator.clipboard.writeText('{{ $user->id }}').then(function() {
                     // Show toast notification (if you have toast system)

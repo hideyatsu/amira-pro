@@ -28,9 +28,15 @@ class UserController extends Controller implements HasMiddleware
     {
         if ($request->ajax()) {
             $query = User::with(['roles'])
-                ->select(['id', 'name', 'email', 'created_at']);
+                ->select(['id', 'name', 'email', 'is_active', 'created_at']);
 
             return DataTables::of($query)
+                ->addColumn('status', function (User $user) {
+                    if ($user->is_active) {
+                        return '<span class="badge bg-success text-success-fg">Active</span>';
+                    }
+                    return '<span class="badge bg-warning text-warning-fg">Inactive</span>';
+                })
                 ->addColumn('roles', function (User $user) {
                     return $user->roles->pluck('name')->join(', ');
                 })
@@ -56,7 +62,7 @@ class UserController extends Controller implements HasMiddleware
                         $q->where('name', 'like', "%{$keyword}%");
                     });
                 })
-                ->rawColumns(['roles', 'actions'])
+                ->rawColumns(['status', 'roles', 'actions'])
                 ->make(true);
         }
 

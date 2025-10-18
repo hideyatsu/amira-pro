@@ -3,6 +3,80 @@
 @section('title', 'Edit User')
 
 @section('content')
+    <!-- User Activation Status Card -->
+    <div class="row mb-3">
+        <div class="col-12">
+            <x-card>
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        @if($user->is_active)
+                            <span class="avatar avatar-lg" style="background-color: rgba(var(--tblr-success-rgb), 0.1)">
+                                <x-icon name="user-check" size="32" color="var(--tblr-success)" />
+                            </span>
+                        @else
+                            <span class="avatar avatar-lg" style="background-color: rgba(var(--tblr-warning-rgb), 0.1)">
+                                <x-icon name="clock" size="32" color="var(--tblr-warning)" />
+                            </span>
+                        @endif
+                    </div>
+                    <div class="col">
+                        <h3 class="mb-1">Account Status</h3>
+                        <div class="text-secondary">
+                            @if($user->is_active)
+                                <span class="badge bg-success text-success-fg me-2">
+                                    <x-icon name="check" class="me-1" size="16" />
+                                    Active
+                                </span>
+                                @if($user->activated_at)
+                                    <small class="text-muted">
+                                        Activated {{ $user->activated_at->diffForHumans() }}
+                                    </small>
+                                @endif
+                            @else
+                                <span class="badge bg-warning text-warning-fg me-2">
+                                    <x-icon name="clock" class="me-1" size="16" />
+                                    Pending Activation
+                                </span>
+                                <small class="text-muted">
+                                    User cannot access the system until activated
+                                </small>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="btn-list">
+                            @if(!$user->is_active)
+                                <form method="POST" action="{{ route('admin.users.activate', $user) }}" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success">
+                                        <x-icon name="check" class="me-1" />
+                                        Activate User
+                                    </button>
+                                </form>
+                            @else
+                                @if(auth()->id() !== $user->id)
+                                    <form method="POST" action="{{ route('admin.users.deactivate', $user) }}" class="d-inline">
+                                        @csrf
+                                        <button type="submit" class="btn btn-warning" 
+                                                onclick="return confirm('Are you sure you want to deactivate this user? They will be logged out and unable to access the system.')">
+                                            <x-icon name="x" class="me-1" />
+                                            Deactivate User
+                                        </button>
+                                    </form>
+                                @else
+                                    <button type="button" class="btn btn-outline-secondary" disabled>
+                                        <x-icon name="shield" class="me-1" />
+                                        Cannot deactivate yourself
+                                    </button>
+                                @endif
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </x-card>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-12">
             <x-card title="Edit User: {{ $user->name }}">
