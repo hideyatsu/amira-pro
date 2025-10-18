@@ -22,6 +22,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'google_id',
+        'github_id',
+        'avatar',
+        'email_verified_at',
+        'is_active',
+        'activated_at',
     ];
 
     /**
@@ -44,6 +50,37 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
+            'activated_at' => 'datetime',
         ];
+    }
+
+    /**
+     * Check if user is active
+     */
+    public function isActive(): bool
+    {
+        return $this->is_active === true;
+    }
+
+    /**
+     * Activate the user
+     */
+    public function activate(): void
+    {
+        $this->update([
+            'is_active' => true,
+            'activated_at' => now(),
+        ]);
+    }
+
+    /**
+     * Deactivate the user
+     */
+    public function deactivate(): void
+    {
+        $this->update([
+            'is_active' => false,
+        ]);
     }
 }

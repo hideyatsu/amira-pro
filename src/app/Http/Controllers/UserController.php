@@ -6,6 +6,7 @@ use App\Http\Controllers\Traits\HasPermissionMiddleware;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
 class UserController extends Controller implements HasMiddleware
@@ -206,5 +207,52 @@ class UserController extends Controller implements HasMiddleware
         return redirect()
             ->route('admin.users.edit', $user->id)
             ->with('success', 'Password reset link sent to user\'s email.');
+    }
+
+    /**
+     * Activate a user account.
+     */
+    public function activate(Request $request, string $id)
+    {
+        $user = User::findOrFail($id);
+
+        if ($user->isActive()) {
+            return redirect()
+                ->route('admin.users.edit', $user->id)
+                ->with('info', 'User is already activated.');
+        }
+
+        $user->activate();
+
+        return redirect()
+            ->route('admin.users.edit', $user->id)
+            ->with('success', 'User activated successfully.');
+    }
+
+    /**
+     * Deactivate a user account.
+     */
+    public function deactivate(Request $request, string $id)
+    {
+        $user = User::findOrFail($id);
+
+        if (!$user->isActive()) {
+            return redirect()
+                ->route('admin.users.edit', $user->id)
+                ->with('info', 'User is already deactivated.');
+        }
+
+        // Don't allow deactivating yourself
+        if (Auth::id() === $user->id) {
+            return redirect()
+                ->route('admin.users.edit', $user->id)
+                ->with('error', 'You cannot deactivate your own account.');
+        }
+
+        $user->deactivate();
+
+        return redirect()
+            ->route('admin.users.edit', $user->id)
+            ->with('success', 'User deactivated successfully.');
     }
 }
