@@ -72,20 +72,15 @@
 
                     <div class="row">
                         <div class="col-12">
-                            <x-input-label for="roles" :value="__('Assign Roles')" class="form-label" />
-                            <select name="roles[]" id="roles" class="form-select" multiple>
-                                <option value="">Select roles...</option>
-                                @foreach($roles as $role)
-                                    <option value="{{ $role->name }}"
-                                        {{ in_array($role->name, old('roles', $user->roles->pluck('name')->toArray())) ? 'selected' : '' }}>
-                                        {{ ucfirst($role->name) }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            <x-input-error class="mt-2" :messages="$errors->get('roles')" />
-                            <div class="form-hint">
-                                Hold Ctrl/Cmd to select multiple roles.
-                            </div>
+                            <x-select2
+                                name="roles"
+                                :label="__('Assign Roles')"
+                                placeholder="Select roles..."
+                                :multiple="true"
+                                :options="$roles->pluck('name', 'name')->map(fn($name) => ucfirst($name))->toArray()"
+                                :selected="old('roles', $user->roles->pluck('name')->toArray())"
+                                hint="Hold Ctrl/Cmd to select multiple roles."
+                            />
                         </div>
                     </div>
 
