@@ -83,4 +83,19 @@ class User extends Authenticatable
             'is_active' => false,
         ]);
     }
+
+    /**
+     * Get user avatar URL (from social login or Gravatar)
+     */
+    public function getAvatarUrlAttribute(): string
+    {
+        // If user has avatar from social login
+        if ($this->avatar) {
+            return $this->avatar;
+        }
+
+        // Otherwise, use Gravatar
+        $hash = md5(strtolower(trim($this->email)));
+        return "https://www.gravatar.com/avatar/{$hash}?d=mp&s=200";
+    }
 }
