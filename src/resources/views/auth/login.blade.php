@@ -111,11 +111,11 @@
             <div class="hr-text">or</div>
 
             <!-- Social Login Buttons -->
-            <div class="row g-2 mb-3">
-                <div class="col-12">
+            <div class="row">
+                <div class="col">
                     <x-google-button />
                 </div>
-                <div class="col-12">
+                <div class="col">
                     <x-github-button />
                 </div>
             </div>
